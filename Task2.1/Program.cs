@@ -1,9 +1,4 @@
-﻿// TODO нужно чистить using
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 // TODO снова блочный неймспейс - нужно убрать кавычки
 namespace Task2._1
@@ -24,18 +19,15 @@ namespace Task2._1
             if (valueCheck == 0)
             {
                 Console.WriteLine("Данное число является чётным.");
-                Console.WriteLine("Нажмите Enter для выхода.");
-                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Данное число является нечётным.");
                 // TODO Здесь повторяет часть кода ветки с четностью - нужно замечать
                 // и делать их общим кодом
-                Console.WriteLine("Нажмите Enter для выхода.");
-                Console.ReadLine();
             }
-
+            Console.WriteLine("Нажмите Enter для выхода.");
+            Console.ReadLine();
             // TODO Хорошо бы во всех заданиях в конце не просто выход, а предлагать
             // или выход или повторить
         }
