@@ -1,9 +1,11 @@
-﻿using System;
+﻿// TODO нужно чистить using
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// TODO снова блочный неймспейс - нужно убрать кавычки
 namespace Task2._2
 {
     internal class Program
@@ -27,6 +29,8 @@ namespace Task2._2
                 Console.WriteLine("Введите номинал карты, и нажмите Enter:");
                 var cardValue = Console.ReadLine();
                 bool cardCheck;
+
+                // TODO В задании "Внутри цикла, используя оператор switch"
                 if (cardValue == "J" || cardValue == "Q" || cardValue == "K" || cardValue == "T")
                 {
                     cardCheck = true;
@@ -41,6 +45,7 @@ namespace Task2._2
                 }
                 else if (cardCheck == false)
                 {
+                    // TODO Обращай внимание на посказки среды разработки - здесь выделяет знак равенства
                     sum = sum + int.Parse(cardValue);
                 }
             }
