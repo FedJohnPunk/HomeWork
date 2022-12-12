@@ -10,6 +10,8 @@ namespace Task2._1
     {
         static void Main(string[] args)
         {
+            // Программа определения чётности или нечётности числа
+
             // Пользователь вводит число для проверки
             Console.WriteLine("Введите целое число: ");
             int value = int.Parse(Console.ReadLine());
