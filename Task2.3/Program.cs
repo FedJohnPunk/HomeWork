@@ -16,7 +16,11 @@ namespace Task2._3
             int value = int.Parse(Console.ReadLine());
 
             int counter = 0;
-            while (counter <= value -- 1);
+            // TODO Здесь исправил ошибку - желательно сохранять
+            // компилируемое cостояние  в git
+            // Если еще кто-то работает, ему прийдется разбираться
+            // почему решение не собирается
+            while (counter <= value - 1)
             {
 
             }
