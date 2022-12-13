@@ -1,4 +1,7 @@
-﻿namespace Task2._1
+﻿using System;
+
+// TODO снова блочный неймспейс - нужно убрать кавычки
+namespace Task2._1
 {
     internal class Program
     {
@@ -20,9 +23,13 @@
             else
             {
                 Console.WriteLine("Данное число является нечётным.");
+                // TODO Здесь повторяет часть кода ветки с четностью - нужно замечать
+                // и делать их общим кодом
             }
-            Console.WriteLine("Нажмите Enter для выхода");
+            Console.WriteLine("Нажмите Enter для выхода.");
             Console.ReadLine();
+            // TODO Хорошо бы во всех заданиях в конце не просто выход, а предлагать
+            // или выход или повторить
         }
     }
 }
