@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Task2._3
+﻿namespace Task2._3
 {
     internal class Program
     {
@@ -12,18 +6,29 @@ namespace Task2._3
         {
             // Программа проверки простого числа
 
-            Console.WriteLine("Введите целое число");
+            Console.WriteLine("Введите число:");
             int value = int.Parse(Console.ReadLine());
-
-            int counter = 0;
-            // TODO Здесь исправил ошибку - желательно сохранять
-            // компилируемое cостояние  в git
-            // Если еще кто-то работает, ему прийдется разбираться
-            // почему решение не собирается
+            
+            int counter = 2;
+            bool check = false;
             while (counter <= value - 1)
             {
-
+                if (value % counter == 0)
+                {
+                    check = true;
+                }
+                counter++;
+            }    
+            if (check == false)
+            {
+                Console.WriteLine("Число является простым.");
             }
+            else
+            {
+                Console.WriteLine("Число не является простым");
+            }
+            Console.WriteLine("Нажмите Enter для выхода.");
+            Console.ReadLine();
         }
     }
 }
