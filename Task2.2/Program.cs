@@ -31,16 +31,16 @@
                         sum += int.Parse(cardValue);
                         break;
                     case "J":
-                        sum += 10;
+                        sum += 2;
                         break;
                     case "Q":
-                        sum += 11;
+                        sum += 3;
                         break;
                     case "K":
-                        sum += 12;
+                        sum += 4;
                         break;
                     case "T":
-                        sum += 13;
+                        sum += 11;
                         break;
                     default:
                         Console.WriteLine("Неправильный номинал карты.");
