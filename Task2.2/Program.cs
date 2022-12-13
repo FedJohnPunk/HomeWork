@@ -1,9 +1,4 @@
-﻿// TODO Еще раз можно почистить using: в .NET7 используется специальный механизм
-// в котором общие using скрываются из отдельных файлов
-using System;
-
-// TODO снова блочный неймспейс - нужно убрать кавычки
-namespace Task2._2
+﻿namespace Task2._2
 {
     internal class Program
     {
@@ -26,30 +21,6 @@ namespace Task2._2
                 Console.WriteLine($"Введите номинал {counter + 1}-й карты, и нажмите Enter:");
                 var cardValue = Console.ReadLine();
 
-                // TODO Не нужно сотавлять старый закомментаированный код
-                // всегда можно в Fork посмотреть историю
-
-                #region Способ if-else
-                // TODO В задании "Внутри цикла, используя оператор switch"
-                // bool cardCheck;
-                //if (cardValue == "J" || cardValue == "Q" || cardValue == "K" || cardValue == "T")
-                //{
-                //    cardCheck = true;
-                //}
-                //else
-                //{
-                //    cardCheck = false;
-                //}
-                //if (cardCheck == true)
-                //{
-                //    sum += 10;
-                //}
-                //else if (cardCheck == false)
-                //{
-                //    sum += int.Parse(cardValue);
-                //}
-                #endregion
-
                 switch (cardValue)
                 {
                     case "5":
@@ -60,12 +31,16 @@ namespace Task2._2
                         sum += int.Parse(cardValue);
                         break;
                     case "J":
-                    case "Q":
-                    case "K":
-                    case "T":
-                        // TODO Здесь получается, что все старшие карты имеют один вес,
-                        // разве не должны быть разные?
                         sum += 10;
+                        break;
+                    case "Q":
+                        sum += 11;
+                        break;
+                    case "K":
+                        sum += 12;
+                        break;
+                    case "T":
+                        sum += 13;
                         break;
                     default:
                         Console.WriteLine("Неправильный номинал карты.");
