@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1;
+namespace Lesson4._1;
 
 internal class Program
 {
@@ -20,6 +20,7 @@ internal class Program
         Random r = new Random();
         int sum = 0;
 
+        Console.WriteLine();
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
             for (int j = 0; j < matrix.GetLength(1); j++)
@@ -30,6 +31,7 @@ internal class Program
             }
             Console.WriteLine();
         }
+        Console.WriteLine();
         Console.WriteLine($"Сумма всех элементов матрицы: {sum}");
         Console.ReadLine();
 
