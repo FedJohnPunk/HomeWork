@@ -1,35 +1,34 @@
 ﻿using System;
 
-namespace Task2._5
+namespace Task2._5;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Console.WriteLine("Введите максимальное целое число диапазона:");
+        int maxValue = int.Parse(Console.ReadLine());
+        Random randomize = new Random();
+        int randomValue = randomize.Next(0, maxValue);
+        Console.WriteLine("Вводите числа:");
+        while (true)
         {
-            Console.WriteLine("Введите максимальное целое число диапазона:");
-            int maxValue = int.Parse(Console.ReadLine());
-            Random randomize = new Random();
-            int randomValue = randomize.Next(0, maxValue);
-            Console.WriteLine("Вводите числа:");
-            while (true)
+            int value = int.Parse(Console.ReadLine());
+            if (value > randomValue)
             {
-                int value = int.Parse(Console.ReadLine());
-                if (value > randomValue)
-                {
-                    Console.WriteLine("Меньше");
-                }
-                else if (value < randomValue)
-                {
-                    Console.WriteLine("Больше");
-                }
-                else if (value == randomValue)
-                {
-                    Console.WriteLine($"Вы угадали! Загаданое число {randomValue}");
-                    break;
-                }
+                Console.WriteLine("Меньше");
             }
-            Console.WriteLine("Нажмите Enter для выхода");
-            Console.ReadLine();
+            else if (value < randomValue)
+            {
+                Console.WriteLine("Больше");
+            }
+            else if (value == randomValue)
+            {
+                Console.WriteLine($"Вы угадали! Загаданое число {randomValue}");
+                break;
+            }
         }
+        Console.WriteLine("Нажмите Enter для выхода");
+        Console.ReadLine();
     }
 }
