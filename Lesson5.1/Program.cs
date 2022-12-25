@@ -28,8 +28,8 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Введите предложение:");
-        string text = Console.ReadLine();
-        string[] st = SplitText(text);
-        Print(st);
+        string inputText = Console.ReadLine();
+        string[] splitedText = SplitText(inputText);
+        Print(splitedText);
     }
 }
