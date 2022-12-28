@@ -1,5 +1,4 @@
 ﻿namespace Lesson5._2;
-
 internal class Program
 {
     /// <summary>
