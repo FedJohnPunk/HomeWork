@@ -3,13 +3,24 @@ internal class Progsram
 {
     static void Main(string[] args)
     {
+        // TODO Зачем ЗДЕСЬ проверять наличие файла, если
+        // это значение будет где-то там когда-то использоваться и то не факт (FileRead)
+        // TODO Есть несколько причин, чтобы сделать имя файла общей константой
+        // - не ошибильтся (в FileWriter ошибся),
+        // - чтобы знать назначение этой строки - это хорошо, что ты по русски понимаешь, что
+        //   написано, а если на китайском будет? а имя констаны EmployeeFileName - гарантирует,
+        //   что будет понятно везде назначение этой "магической строки" (почитай про магические строки)
+        // - в системах нескольких языков содержимое строки каким-то способом подменяется на заданный язык
+        //   а идентификатор остается неизменным
         bool existCheck = File.Exists(@"C:\UserData\Сотрудники.txt");
         string[] infoNames = { "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
 
         WriteOrRead(existCheck, infoNames);
     }
+
     static void WriteOrRead(bool existCheck, string[] info)
     {
+        // TODO Обычно нажатия обозначают [1] [2]
         Console.WriteLine("Для чтения нажмите 1, для записи нажмите 2:");
         char key = Console.ReadKey(true).KeyChar;
         if (char.ToLower(key) == '1')
@@ -28,12 +39,15 @@ internal class Progsram
 
     static void FileWriter(bool fileExCheck, string[] info)
     {
+        // TODO Почему здесь расширение файла txt5 ?
         using (StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt5", fileExCheck))
         {
             char key = '1';
 
             do
             {
+                // TODO У Игоря списывал? я ему кучу замечаний дал
+                // а он тебе первый вариант - попроси тогда уж последний
                 string userData = string.Empty;
                 Console.WriteLine("Введите ID:");
                 userData += $"{Console.ReadLine()}";

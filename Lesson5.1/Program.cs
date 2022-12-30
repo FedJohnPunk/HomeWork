@@ -28,6 +28,8 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Введите предложение:");
+        // TODO здесь подчеркивает - нужно гарантировать, что строка не пустая
+        // Сделать метод ввода, который возвращает непустую строку
         string inputText = Console.ReadLine();
         string[] splitedText = SplitText(inputText);
         Print(splitedText);

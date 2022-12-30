@@ -16,6 +16,8 @@ internal class Program
     {
         string[] strings= SplitText(text);
         Array.Reverse(strings);
+        // TODO Здесь обрати внимание на то, что string подчеркивается
+        // нужно разобраться и подправить
         string.Join(" ", strings);
         return strings;
     }
