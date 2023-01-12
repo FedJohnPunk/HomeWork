@@ -39,8 +39,7 @@ internal class Progsram
 
     static void FileWriter(bool fileExCheck, string[] info)
     {
-        // TODO Почему здесь расширение файла txt5 ?
-        using (StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt5", fileExCheck))
+        using (StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt", fileExCheck))
         {
             char key = '1';
 
