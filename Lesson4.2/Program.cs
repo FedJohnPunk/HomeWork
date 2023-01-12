@@ -5,13 +5,13 @@ internal class Program
     static void Main(string[] args)
     {
         int[] matSize = SetSize();
-
+        Console.WriteLine("Матрица A:");
         int[,] matrixA = GenMatrix(matSize);
         Print(matrixA);
-
+        Console.WriteLine("Матрица B:");
         int[,] matrixB = GenMatrix(matSize);
         Print(matrixB);
-
+        Console.WriteLine("Матрица C:");
         int[,] matrixC = SumMartix(matSize, matrixA, matrixB);
         Print(matrixC);
     }
