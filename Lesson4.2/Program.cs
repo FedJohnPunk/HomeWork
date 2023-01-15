@@ -2,31 +2,56 @@
 
 internal class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        int[] matSize = SetSize();
+        (int matSizeA, int matSizeB) = InputSize();
+
         Console.WriteLine("Матрица A:");
-        int[,] matrixA = GenMatrix(matSize);
+        int[,] matrixA = GenMatrix(matSizeA, matSizeB);
         Print(matrixA);
+
         Console.WriteLine("Матрица B:");
-        int[,] matrixB = GenMatrix(matSize);
+        int[,] matrixB = GenMatrix(matSizeA, matSizeB);
         Print(matrixB);
+
         Console.WriteLine("Матрица C:");
-        int[,] matrixC = SumMartix(matSize, matrixA, matrixB);
+        int[,] matrixC = SumMartix(matrixA, matrixB);
         Print(matrixC);
     }
-    static int[] SetSize()
+
+    static int InputAndCheck()
     {
-        int[] matSize = new int[2];
-        Console.WriteLine("Введите количество строк в матрице:");
-        matSize[0] = int.Parse(Console.ReadLine());
-        Console.WriteLine("Введите количество столбцов в матрице:");
-        matSize[1] = int.Parse(Console.ReadLine());
-        return matSize;
+        int val;
+        bool check;
+        do
+        {
+            check = int.TryParse(Console.ReadLine(), out val);
+            if (check == true)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное значение");
+                check = false;
+            }
+        } while (check == false);
+        return val;
     }
-    static int[,] GenMatrix(int[] matSize)
+
+    static (int, int) InputSize()
     {
-        int[,] matrix = new int[matSize[0], matSize[1]];
+        Console.WriteLine("Введите количество строк в матрице:");
+        int matSizeA = InputAndCheck();
+        Console.WriteLine("Введите количество столбцов в матрице:");
+        int matSizeB = InputAndCheck();
+        Console.WriteLine();
+        return (matSizeA, matSizeB);
+    }
+
+    static int[,] GenMatrix(int matSizeA, int matSizeB)
+    {
+        int[,] matrix = new int[matSizeA, matSizeB];
         Random random = new Random();
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
@@ -37,9 +62,10 @@ internal class Program
         }
         return matrix;
     }
-    static int[,] SumMartix(int[] matSize, int[,] matrixA, int[,] matrixB)
+
+    static int[,] SumMartix(int[,] matrixA, int[,] matrixB)
     {
-        int[,] matrix = new int[matSize[0], matSize[1]];
+        int[,] matrix = new int[matrixA.GetLength(0), matrixB.GetLength(1)];
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
             for (int j = 0; j < matrix.GetLength(1); j++)
@@ -49,6 +75,7 @@ internal class Program
         }
         return matrix;
     }
+
     static void Print(int[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)

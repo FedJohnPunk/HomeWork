@@ -4,22 +4,47 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        int[,] mat = GenerateMatrix(SetSize());
-        int sum = SumMatrix(mat);
-        Print(mat, sum);
+        (int matSizeA, int matSizeB) = InputSize();
+        int[,] mat = GenerateMatrix(matSizeA, matSizeB);
+        int sum = SumMatrixVal(mat);
+        Print(mat);
+        Console.WriteLine($"\nСумма всех элементов матрицы: {sum}");
+        Console.ReadKey();
     }
-    static int[] SetSize()
+
+    static int InputAndCheck()
     {
-        int[] matSize = new int[2];
+        int val;
+        bool check;
+        do
+        {
+            check = int.TryParse(Console.ReadLine(), out val);
+            if (check == true)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное значение");
+                check = false;
+            }
+        } while (check == false);
+        return val;
+    }
+
+    static (int,int) InputSize()
+    {
         Console.WriteLine("Введите количество строк в матрице:");
-        matSize[0] = int.Parse(Console.ReadLine());
+        int matSizeA = InputAndCheck();
         Console.WriteLine("Введите количество столбцов в матрице:");
-        matSize[1] = int.Parse(Console.ReadLine());
-        return matSize;
+        int matSizeB = InputAndCheck();
+        Console.WriteLine();
+        return (matSizeA, matSizeB);
     }
-    static int[,] GenerateMatrix(int[] matSize)
+
+    static int[,] GenerateMatrix(int matSizeA, int matSizeB)
     {
-        int[,] matrix = new int[matSize[0], matSize[1]];
+        int[,] matrix = new int[matSizeA, matSizeB];
         Random r = new Random();
 
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -31,7 +56,8 @@ internal class Program
         }
         return matrix;
     }
-    static int SumMatrix(int[,] matrix)
+
+    static int SumMatrixVal(int[,] matrix)
     {
         int sum = 0;
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -43,7 +69,8 @@ internal class Program
         }
         return sum;
     }
-    static void Print(int[,] matrix, int sum)
+    
+    static void Print(int[,] matrix)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
@@ -53,7 +80,5 @@ internal class Program
             }
             Console.WriteLine();
         }
-        Console.WriteLine($"Сумма всех элементов матрицы: {sum}");
-        Console.ReadKey();
     }
 }

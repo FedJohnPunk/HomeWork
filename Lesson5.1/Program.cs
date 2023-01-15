@@ -2,6 +2,35 @@
 
 internal class Program
 {
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите предложение:");
+        string inputText = InputAndCheck();
+        string[] splitedText = SplitText(inputText);
+        Print(splitedText);
+    }
+
+    static string InputAndCheck()
+    {
+        string s = string.Empty;
+        bool check;
+        do
+        {
+            s = Console.ReadLine();
+
+            check = string.IsNullOrEmpty(s);
+            if (check == false)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное предложение:");
+                check = true;
+            }
+        } while (check == true);
+        return s;
+    }
 
     /// <summary>
     /// Метод, который переводит строку в массив слов.
@@ -12,7 +41,7 @@ internal class Program
         string[] strings = text.Split();
         return strings;
     }
-
+    
     /// <summary>
     /// Метод, который выводит каждое слово в отдельной строке.
     /// </summary>
@@ -24,14 +53,5 @@ internal class Program
         {
             Console.WriteLine(i);
         }
-    }
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Введите предложение:");
-        // TODO здесь подчеркивает - нужно гарантировать, что строка не пустая
-        // Сделать метод ввода, который возвращает непустую строку
-        string inputText = Console.ReadLine();
-        string[] splitedText = SplitText(inputText);
-        Print(splitedText);
     }
 }

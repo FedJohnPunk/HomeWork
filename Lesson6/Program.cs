@@ -39,10 +39,10 @@ internal class Progsram
 
     static void FileWriter(bool fileExCheck, string[] info)
     {
-        using (StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt", fileExCheck))
+        using StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt", fileExCheck);
         {
             char key = '1';
-
+            
             do
             {
                 // TODO У Игоря списывал? я ему кучу замечаний дал
@@ -70,7 +70,7 @@ internal class Progsram
 
     static void FileReader(string[] info)
     {
-        using (StreamReader sr = new StreamReader(@"C:\UserData\Сотрудники.txt"))
+        using StreamReader sr = new StreamReader(@"C:\UserData\Сотрудники.txt");
         {
             string[] data = File.ReadAllLines(@"C:\UserData\Сотрудники.txt");
             Console.WriteLine();

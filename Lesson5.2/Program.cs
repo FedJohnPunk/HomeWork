@@ -1,6 +1,36 @@
 ﻿namespace Lesson5._2;
 internal class Program
 {
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите предложение:");
+        string inputText = InputAndCheck();
+        string revText = Reverse(inputText);
+        Console.WriteLine(revText);
+    }
+
+    static string InputAndCheck()
+    {
+        string s = string.Empty;
+        bool check;
+        do
+        {
+            s = Console.ReadLine();
+
+            check = string.IsNullOrEmpty(s);
+            if (check == false)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное предложение:");
+                check = true;
+            }
+        } while (check == true);
+        return s;
+    }
+
     /// <summary>
     /// Метод, который разделяет стрку на отдельные слова.
     /// </summary>
@@ -12,24 +42,11 @@ internal class Program
         return splitedText;
     }
 
-    static string[] Reverse(string text)
+    static string Reverse(string text)
     {
-        string[] strings= SplitText(text);
+        string[] strings = SplitText(text);
         Array.Reverse(strings);
-        // TODO Здесь обрати внимание на то, что string подчеркивается
-        // нужно разобраться и подправить
-        string.Join(" ", strings);
-        return strings;
-    }
-
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Введите предложение:");
-        string inputText = Console.ReadLine();
-        string[] revText = Reverse(inputText);
-        foreach (string rev in revText)
-        {
-            Console.Write($"{rev} ");
-        }
+        string result = string.Join(" ", strings);
+        return result;
     }
 }
