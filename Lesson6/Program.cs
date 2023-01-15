@@ -3,95 +3,113 @@ internal class Progsram
 {
     static void Main(string[] args)
     {
-        // TODO Зачем ЗДЕСЬ проверять наличие файла, если
-        // это значение будет где-то там когда-то использоваться и то не факт (FileRead)
-        // TODO Есть несколько причин, чтобы сделать имя файла общей константой
-        // - не ошибильтся (в FileWriter ошибся),
-        // - чтобы знать назначение этой строки - это хорошо, что ты по русски понимаешь, что
-        //   написано, а если на китайском будет? а имя констаны EmployeeFileName - гарантирует,
-        //   что будет понятно везде назначение этой "магической строки" (почитай про магические строки)
-        // - в системах нескольких языков содержимое строки каким-то способом подменяется на заданный язык
-        //   а идентификатор остается неизменным
-        bool existCheck = File.Exists(@"C:\UserData\Сотрудники.txt");
-        string[] infoNames = { "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
+        string fileLocation = @"C:\UserData\Сотрудники.txt";
+        string[] infoNames = {"ID", "Дата записи", "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
 
-        WriteOrRead(existCheck, infoNames);
+        WriteOrRead(fileLocation, infoNames);
     }
 
-    static void WriteOrRead(bool existCheck, string[] info)
+    static string InputAndCheck()
     {
-        // TODO Обычно нажатия обозначают [1] [2]
-        Console.WriteLine("Для чтения нажмите 1, для записи нажмите 2:");
-        char key = Console.ReadKey(true).KeyChar;
-        if (char.ToLower(key) == '1')
+        string s = string.Empty;
+        bool check;
+        do
         {
-            FileReader(info);
-        }
-        else if (char.ToLower(key) == '2')
-        {
-            FileWriter(existCheck, info);
-        }
-        else
-        {
-            Console.WriteLine("Некоректный ввод.");
-        }
-    }
+            s = Console.ReadLine();
 
-    static void FileWriter(bool fileExCheck, string[] info)
-    {
-        using StreamWriter sw = new StreamWriter(@"C:\UserData\Сотрудники.txt", fileExCheck);
-        {
-            char key = '1';
-            
-            do
+            check = string.IsNullOrEmpty(s);
+            if (check == false)
             {
-                // TODO У Игоря списывал? я ему кучу замечаний дал
-                // а он тебе первый вариант - попроси тогда уж последний
-                string userData = string.Empty;
-                Console.WriteLine("Введите ID:");
-                userData += $"{Console.ReadLine()}";
-
-                string now = DateTime.Now.ToString();
-                userData += $"#{now}";
-
-                for (int i = 0; i < info.Length; i++)
-                {
-                    Console.WriteLine($"Введите значение параметра {info[i]}:");
-                    string par  = Console.ReadLine();
-                    userData += $"#{par}";
-                }
-
-                sw.WriteLine(userData);
-                Console.WriteLine("Для новой записи нажмите один '1', для завершения нажмите любую клавишу:");
-                key = Console.ReadKey(true).KeyChar;
-            } while (char.ToLower(key) == '1');
-        }
+                break;
+            }
+            else
+            {
+                Console.WriteLine("не введено:");
+                check = true;
+            }
+        } while (check == true);
+        return s;
+    }
+    static void WriteOrRead(string fileLocation, string[] info)
+    {
+        bool check;
+        do
+        {
+            Console.WriteLine("Для чтения нажмите [1], для записи нажмите [2]:");
+            char key = Console.ReadKey(true).KeyChar;
+            if (char.ToLower(key) == '1')
+            {
+                FileReader(fileLocation, info);
+                break;
+            }
+            else if (char.ToLower(key) == '2')
+            {
+                FileWriter(fileLocation, info);
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Некоректный ввод.");
+                check = false;
+            }
+        } while (check == false);
+        
     }
 
-    static void FileReader(string[] info)
+    static void FileWriter(string fileLocation, string[] info)
     {
-        using StreamReader sr = new StreamReader(@"C:\UserData\Сотрудники.txt");
+        bool existCheck = File.Exists(fileLocation);
+        using StreamWriter sw = new StreamWriter(fileLocation, existCheck);
         {
-            string[] data = File.ReadAllLines(@"C:\UserData\Сотрудники.txt");
+            char separator = '#';
+            string userData = string.Empty;
+            Console.WriteLine("Введите ID:");
+            userData += $"{Console.ReadLine()}";
+            userData += $"{separator}{DateTime.Now}";
+            for (int i = 2; i < info.Length; i++)
+            {
+                Console.WriteLine($"Введите значение параметра {info[i]}:");
+                string par = InputAndCheck();
+                userData += $"{separator}{par}";
+            }
+            sw.WriteLine(userData);
+            sw.Close();
+            Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
+            char key = Console.ReadKey(true).KeyChar;
+            if (char.ToLower(key) == '1')
+            {
+                WriteOrRead(fileLocation, info);
+            }
+        }
+        
+    }
+
+    static void FileReader(string fileLocation, string[] info)
+    {
+        using StreamReader sr = new StreamReader(fileLocation);
+        {
+            string[] data = File.ReadAllLines(fileLocation);
             Console.WriteLine();
 
             foreach (var line in data)
             {
-                string[] splitedData = line.Split('#');
+                char separator = '#';
+                string[] splitedData = line.Split(separator);
                 string userData = string.Empty;
 
-                userData += $"ID: {splitedData[0]}, ";
-                userData += $"Дата записи: {splitedData[1]}, ";
-                int j = 0;
-                for (int i = 2; i < splitedData.Length; i++)
+                for (int i = 0; i < splitedData.Length; i++)
                 {
-                    userData += $"{info[j]}: {splitedData[i]}, ";
-                    j++;
+                    userData += $"{info[i]}: {splitedData[i]}, ";
                 }
                 Console.WriteLine(userData);
-
             }
-            Console.ReadLine();
+            sr.Close();
+            Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
+            char key = Console.ReadKey(true).KeyChar;
+            if (char.ToLower(key) == '1')
+            {
+                WriteOrRead(fileLocation, info);
+            }
         }
     }
 }

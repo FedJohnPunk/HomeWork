@@ -1,7 +1,7 @@
 ﻿namespace Lesson5._2;
 internal class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         Console.WriteLine("Введите предложение:");
         string inputText = InputAndCheck();
