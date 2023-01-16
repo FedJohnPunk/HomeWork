@@ -2,6 +2,7 @@
 
 internal class Program
 {
+    // TODO аналогично замечаниям для 4.1
     static void Main()
     {
         (int matSizeA, int matSizeB) = InputSize();

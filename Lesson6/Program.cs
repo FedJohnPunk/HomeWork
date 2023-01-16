@@ -11,6 +11,7 @@ internal class Progsram
 
     static string InputAndCheck()
     {
+        //
         string s = string.Empty;
         bool check;
         do

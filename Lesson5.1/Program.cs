@@ -12,6 +12,8 @@ internal class Program
 
     static string InputAndCheck()
     {
+        // TODO аналогично замечаниям для InputInt
+        // попробуй переделать без лишних объявлений (s останется, но будет локализовано)
         string s = string.Empty;
         bool check;
         do
@@ -32,6 +34,8 @@ internal class Program
         return s;
     }
 
+    //  TODO если используешь документирование кода,
+    // то заполняй все данные - описание параметров и описание возврата
     /// <summary>
     /// Метод, который переводит строку в массив слов.
     /// <param name="Text"></param>
@@ -41,7 +45,8 @@ internal class Program
         string[] strings = text.Split();
         return strings;
     }
-    
+
+    // TODO нужно более понятное название метода
     /// <summary>
     /// Метод, который выводит каждое слово в отдельной строке.
     /// </summary>
