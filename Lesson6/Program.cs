@@ -1,6 +1,8 @@
 ﻿namespace Lesson6;
 internal class Progsram
 {
+    // TODO константы должны быть здесь: название файла и список полей
+
     static void Main(string[] args)
     {
         string fileLocation = @"C:\UserData\Сотрудники.txt";
@@ -36,6 +38,7 @@ internal class Progsram
         bool check;
         do
         {
+            // TODO метод определения действия должен быть отдельно
             Console.WriteLine("Для чтения нажмите [1], для записи нажмите [2]:");
             char key = Console.ReadKey(true).KeyChar;
             if (char.ToLower(key) == '1')
@@ -75,10 +78,14 @@ internal class Progsram
             }
             sw.WriteLine(userData);
             sw.Close();
+            // TODO похожий код в FileRead должен вызывать желание сделать общий метод))
             Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
             char key = Console.ReadKey(true).KeyChar;
             if (char.ToLower(key) == '1')
             {
+                // TODO метод, который вызвает данный метод, не должен
+                // вызываться внутри вызываемого метода
+                // Определение того, что делать дальше должно быть вне метода, который что-то делает с файлом
                 WriteOrRead(fileLocation, info);
             }
         }
