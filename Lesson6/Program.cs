@@ -1,7 +1,7 @@
 ﻿namespace Lesson6;
 internal class Progsram
 {
-    static void Main(string[] args)
+    static void Main()
     {
         string fileLocation = @"C:\UserData\Сотрудники.txt";
         string[] infoNames = {"ID", "Дата записи", "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
@@ -30,6 +30,7 @@ internal class Progsram
         } while (check == true);
         return s;
     }
+
     static void WriteOrRead(string fileLocation, string[] info)
     {
         bool check;
