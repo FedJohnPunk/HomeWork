@@ -13,7 +13,6 @@ internal class Progsram
 
     static string InputAndCheck()
     {
-        //
         string s = string.Empty;
         bool check;
         do
@@ -33,6 +32,7 @@ internal class Progsram
         } while (check == true);
         return s;
     }
+
     static void WriteOrRead(string fileLocation, string[] info)
     {
         bool check;
