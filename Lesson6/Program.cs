@@ -1,14 +1,13 @@
 ﻿namespace Lesson6;
 internal class Progsram
 {
-    // TODO константы должны быть здесь: название файла и список полей
+    string path = @"C:\UserData\Сотрудники.txt";
+    string[] infoNames = { "ID", "Дата записи", "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
 
-    static void Main(string[] args)
+    static void Main(string path, string[] infoNames)
     {
-        string fileLocation = @"C:\UserData\Сотрудники.txt";
-        string[] infoNames = {"ID", "Дата записи", "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
 
-        WriteOrRead(fileLocation, infoNames);
+        WriteOrRead(path, infoNames);
     }
 
     static string InputAndCheck()
@@ -33,7 +32,7 @@ internal class Progsram
         return s;
     }
 
-    static void WriteOrRead(string fileLocation, string[] info)
+    static void WriteOrRead(string path, string[] info)
     {
         bool check;
         do
@@ -43,12 +42,12 @@ internal class Progsram
             char key = Console.ReadKey(true).KeyChar;
             if (char.ToLower(key) == '1')
             {
-                FileReader(fileLocation, info);
+                FileReader(path, info);
                 break;
             }
             else if (char.ToLower(key) == '2')
             {
-                FileWriter(fileLocation, info);
+                FileWriter(path, info);
                 break;
             }
             else
@@ -60,10 +59,10 @@ internal class Progsram
         
     }
 
-    static void FileWriter(string fileLocation, string[] info)
+    static void FileWriter(string path, string[] info)
     {
-        bool existCheck = File.Exists(fileLocation);
-        using StreamWriter sw = new StreamWriter(fileLocation, existCheck);
+        bool existCheck = File.Exists(path);
+        using StreamWriter sw = new StreamWriter(path, existCheck);
         {
             char separator = '#';
             string userData = string.Empty;
@@ -86,17 +85,17 @@ internal class Progsram
                 // TODO метод, который вызвает данный метод, не должен
                 // вызываться внутри вызываемого метода
                 // Определение того, что делать дальше должно быть вне метода, который что-то делает с файлом
-                WriteOrRead(fileLocation, info);
+                WriteOrRead(path, info);
             }
         }
         
     }
 
-    static void FileReader(string fileLocation, string[] info)
+    static void FileReader(string path, string[] info)
     {
-        using StreamReader sr = new StreamReader(fileLocation);
+        using StreamReader sr = new StreamReader(path);
         {
-            string[] data = File.ReadAllLines(fileLocation);
+            string[] data = File.ReadAllLines(path);
             Console.WriteLine();
 
             foreach (var line in data)
@@ -116,7 +115,7 @@ internal class Progsram
             char key = Console.ReadKey(true).KeyChar;
             if (char.ToLower(key) == '1')
             {
-                WriteOrRead(fileLocation, info);
+                WriteOrRead(path, info);
             }
         }
     }

@@ -23,25 +23,21 @@ internal class Program
         // Подсказки: конструкция "while (true) {}" называется "бесконечный цикл";
         // out-переменная может быть объявлена в вызове метода, но она имеет ограниченную
         // область видимости if (int.TryParse(..., out int val)) { val ... }
-        int val;
+        int value;
         bool check;
         do
         {
-            check = int.TryParse(Console.ReadLine(), out val);
-            // TODO нет необходимости bool сравнивать со значением
-            // это и так bool. Здесь check можно использовать
-            if (check == true)
+            check = int.TryParse(Console.ReadLine(), out value);
+            if (check)
             {
                 break;
             }
             else
             {
                 Console.WriteLine("Введите корректное значение");
-                // TODO здесь же check и так false )
-                check = false;
             }
-        } while (check == false); // TODO а здесь "!check"
-        return val;
+        } while (!check);
+        return value;
     }
 
     static (int,int) InputSize()
