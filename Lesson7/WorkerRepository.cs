@@ -9,25 +9,25 @@ public class WorkerRepository
 
     char _separator = '#';
 
-    public int CountWorkersAmount(string fileName)
+    public void ExistOrCreateFile()
     {
-        string[] workers = File.ReadAllLines(fileName);
+        bool fileExistCheck = File.Exists(_workersFileName);
+        StreamWriter streamWriter = new StreamWriter(_workersFileName, fileExistCheck);
+        streamWriter.Close();
+    }
+
+    public int CountWorkersAmount()
+    {
+        ExistOrCreateFile();
+        
+        string[] workers = File.ReadAllLines(_workersFileName);
         int workersAmount = workers.Length;
         return workersAmount;
     }
 
-    private void Resize(bool check, Worker[] workers)
-    {
-        if (check)
-        {
-            Array.Resize(ref workers, workers.Length + 1);
-        }
-    }
-
     public Worker[] ReadFile()
     {
-        Worker[] workers = new Worker[CountWorkersAmount(_workersFileName)];
-
+        Worker[] workers = new Worker[CountWorkersAmount()];
         using (StreamReader sr = new StreamReader(_workersFileName))
         {
             string[] data = File.ReadAllLines(_workersFileName);
@@ -49,8 +49,7 @@ public class WorkerRepository
 
     public void SaveFile(Worker[] workers)
     {
-        bool fileExistCheck = File.Exists(_workersFileName);
-        StreamWriter sw = new StreamWriter(_workersFileName, fileExistCheck);
+        using StreamWriter sw = new StreamWriter(_workersFileName);
         {
             for (int i = 0; i < workers.Length; i++)
             {
@@ -64,6 +63,7 @@ public class WorkerRepository
                 workerInfo += $"{workers[i].BirthPlace}";
                 sw.WriteLine(workerInfo);
             }
+            sw.Close();
         }
 
     }
@@ -71,17 +71,14 @@ public class WorkerRepository
     /// <summary>
     /// Добавление данных нового сотрудника
     /// </summary>
-    /// <param name="worker"></param>
-    public void AddWorker(Worker worker)
+    /// <param name="newWorker"></param>
+    public void AddWorker(Worker newWorker)
     {
-        // присваиваем worker уникальный ID,
-        int index = CountWorkersAmount(_workersFileName);
-        index++;
-        worker.Id = index;
-        // дописываем нового worker в файл
         Worker[] workers = ReadFile();
-        Resize(index >= workers.Length, workers);
-        workers[index] = worker;
+        int index = CountWorkersAmount();
+        newWorker.Id = index + 1;
+        Array.Resize(ref workers, workers.Length + 1);
+        workers[index] = newWorker;
         SaveFile(workers);
     }
 
@@ -143,13 +140,23 @@ public class WorkerRepository
     public void DeleteWorker(int id)
     {
         Worker[] workers = ReadFile();
+        using StreamWriter sw = new StreamWriter(_workersFileName);
         for (int i = 0; i < workers.Length; i++)
         {
-            if (workers[i].Id == id)
+            if (workers[i].Id != id)
             {
-                Array.Clear(workers, i, 1);
+                string workerInfo = string.Empty;
+                workerInfo += $"{workers[i].Id}{_separator}";
+                workerInfo += $"{workers[i].CreationDate}{_separator}";
+                workerInfo += $"{workers[i].Fio}{_separator}";
+                workerInfo += $"{workers[i].Age}{_separator}";
+                workerInfo += $"{workers[i].Height}{_separator}";
+                workerInfo += $"{workers[i].BirthDate}{_separator}";
+                workerInfo += $"{workers[i].BirthPlace}";
+                sw.WriteLine(workerInfo);
             }
         }
+        sw.Close();
     }
 
     public void PrintWorkersBetweenTwoDates(DateTime dateFrom, DateTime dateTo)
