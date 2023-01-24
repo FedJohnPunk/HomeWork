@@ -9,6 +9,99 @@ public class WorkerRepository
 
     char _separator = '#';
 
+    /// <summary>
+    /// Пользователь выбирает операцию
+    /// </summary>
+    public void ChooseOperation()
+    {
+        Console.WriteLine(
+            "Введите '1', чтобы добавить нового сотрудника, " +
+            "\nВведите '2', чтобы вывести данные всех сотрудников," +
+            "\nВведите '3', чтобы вывести данные конктретного сотрудника," +
+            "\nВведите '4', чтобы удалить данные сотрудника," +
+            "\nВведите '5', чтобы вывести данные сотрудников за заданый промежуток времени.");
+        char key = Console.ReadKey(true).KeyChar;
+        if (char.ToLower(key) == '1')
+        {
+            Worker worker = new Worker();
+            Console.WriteLine("Введите Ф.И.О. сотрудника: ");
+            worker.Fio = InputStringCheck();
+            Console.WriteLine("Введите возраст сотрудника: ");
+            worker.Age = int.Parse(InputStringCheck());
+            Console.WriteLine("Введите рост сотрудника: ");
+            worker.Height = int.Parse(InputStringCheck());
+            Console.WriteLine("Введите дату рождения сотрудника в виде 'xx.xx.xx': ");
+            worker.BirthDate = DateTime.Parse(InputStringCheck());
+            Console.WriteLine("Введите место рождения сотрудника: ");
+            worker.BirthPlace = InputStringCheck();
+
+            AddWorker(worker);
+            RepeatOperationOrNot();
+        }
+        else if (char.ToLower(key) == '2')
+        {
+            PrintAllWorkers();
+            RepeatOperationOrNot();
+        }
+        else if (char.ToLower(key) == '3')
+        {
+            Console.WriteLine("Введите ID сотрудника для отображения данных: ");
+            int id = int.Parse(InputStringCheck());
+            PrintWorkerById(id);
+            RepeatOperationOrNot();
+        }
+        else if (char.ToLower(key) == '4')
+        {
+            Console.WriteLine("Введите ID сотрудника для удаления данных: ");
+            int id = int.Parse(InputStringCheck());
+            DeleteWorker(id);
+            RepeatOperationOrNot();
+        }
+        else if (char.ToLower(key) == '5')
+        {
+            Console.WriteLine("Введите дату 1 ");
+            DateTime dateFrom = DateTime.Parse(InputStringCheck());
+            Console.WriteLine("Введите дату 2 ");
+            DateTime dateTo = DateTime.Parse(InputStringCheck());
+            PrintWorkersBetweenTwoDates(dateFrom, dateTo);
+            RepeatOperationOrNot();
+        }
+        else
+        {
+            Console.WriteLine("Некоректный ввод, попробуйте ещё раз:");
+            ChooseOperation();
+        }
+    }
+
+    public void RepeatOperationOrNot()
+    {
+        Console.WriteLine("Введите [1] для новой операции, \nДля выхода из программы нажмите любую клавишу:");
+        char key = Console.ReadKey(true).KeyChar;
+        if (key == '1')
+        {
+            ChooseOperation();
+        }
+    }
+
+    public string InputStringCheck()
+    {
+        while (true)
+        {
+            string s = Console.ReadLine();
+            if (string.IsNullOrEmpty(s))
+            {
+                Console.WriteLine("Введите корректное значение:");
+            }
+            else
+            {
+                return s;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Проверка существования файла, создание файла если файл не существует
+    /// </summary>
     public void ExistOrCreateFile()
     {
         bool fileExistCheck = File.Exists(_workersFileName);
@@ -16,6 +109,10 @@ public class WorkerRepository
         streamWriter.Close();
     }
 
+    /// <summary>
+    /// Подсчёт кол-ва записей в файле
+    /// </summary>
+    /// <returns>Кол-во записей сотрудников в файле</returns>
     public int CountWorkersAmount()
     {
         ExistOrCreateFile();
@@ -25,6 +122,10 @@ public class WorkerRepository
         return workersAmount;
     }
 
+    /// <summary>
+    /// Чтение данных из файла, и запись их в массив
+    /// </summary>
+    /// <returns>Массив с данными из файла</returns>
     public Worker[] ReadFile()
     {
         Worker[] workers = new Worker[CountWorkersAmount()];
@@ -47,6 +148,10 @@ public class WorkerRepository
         }
     }
 
+    /// <summary>
+    /// Запись массива в файл в нужном формате
+    /// </summary>
+    /// <param name="workers">Массив с данными сотрудников</param>
     public void SaveFile(Worker[] workers)
     {
         using StreamWriter sw = new StreamWriter(_workersFileName);
@@ -71,7 +176,7 @@ public class WorkerRepository
     /// <summary>
     /// Добавление данных нового сотрудника
     /// </summary>
-    /// <param name="newWorker"></param>
+    /// <param name="newWorker">Данные нового сотрудника</param>
     public void AddWorker(Worker newWorker)
     {
         Worker[] workers = ReadFile();
@@ -80,16 +185,17 @@ public class WorkerRepository
         Array.Resize(ref workers, workers.Length + 1);
         workers[index] = newWorker;
         SaveFile(workers);
+        Console.WriteLine();
+        Console.WriteLine("Данные сотрудника добавлены.");
+        Console.WriteLine();
     }
 
     /// <summary>
     /// Чтение всех записей из из файла
     /// </summary>
-    /// <returns>Данные всех сотрудников</returns>
     public void PrintAllWorkers()
     {
-        // здесь происходит чтение из файла
-        // и возврат массива считанных экземпляров
+        Console.WriteLine();
         Worker[] workers = ReadFile();
         for (int i = 0; i < workers.Length; i++)
         {
@@ -103,16 +209,16 @@ public class WorkerRepository
             workerData += $"{_workerInfo[6]}: {workers[i].BirthPlace}.";
             Console.WriteLine(workerData);
         }
-        Console.ReadLine();
+        Console.WriteLine();
     }
 
     /// <summary>
     /// Чтение данных по ID
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <param name="id">ID сотрудника, данные которого нужно вывести</param>
     public void PrintWorkerById(int id)
     {
+        Console.WriteLine();
         Worker[] workers = ReadFile();
         for (int i = 0; i < workers.Length; i++)
         {
@@ -130,13 +236,13 @@ public class WorkerRepository
                 break;
             }
         }
-        Console.ReadLine();
+        Console.WriteLine();
     }
 
     /// <summary>
-    /// Удаление записи
+    /// Метод для удаления записи из файла
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">ID сотрудника, запись которого нужно удалить</param>
     public void DeleteWorker(int id)
     {
         Worker[] workers = ReadFile();
@@ -157,10 +263,12 @@ public class WorkerRepository
             }
         }
         sw.Close();
+        Console.WriteLine("Данные удалены.");
     }
 
     public void PrintWorkersBetweenTwoDates(DateTime dateFrom, DateTime dateTo)
     {
+        Console.WriteLine();
         Worker[] workers = ReadFile();
         for (int i = 0; i < workers.Length; i++)
         {
@@ -172,6 +280,6 @@ public class WorkerRepository
                 }
             }
         }
-        Console.ReadLine();
+        Console.WriteLine();
     }
 }

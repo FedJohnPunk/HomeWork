@@ -7,44 +7,33 @@ internal class Program
         (int matSizeA, int matSizeB) = InputSize();
         int[,] mat = GenerateMatrix(matSizeA, matSizeB);
         int sum = SumMatrixVal(mat);
-        Print(mat);
+        PrintMatrix(mat);
         Console.WriteLine($"\nСумма всех элементов матрицы: {sum}");
         Console.ReadKey();
     }
 
-    // TODO лучше InputInt, проверка скрыта внутри и не очевидна для вызывающего кода
-    // нужно упомянуть Int, а то у тебя потом и string так-же назван
-    static int InputAndCheck()
+    static int InputInt()
     {
-        // TODO нужно смотреть всегда, как код упростить.
-        // Как правило, не нужно объявлять отдельно переменные не присваивая значения.
-        // Попробуй сделать без check и без отдельного объявления val.
-        // Подсказки: конструкция "while (true) {}" называется "бесконечный цикл";
-        // out-переменная может быть объявлена в вызове метода, но она имеет ограниченную
-        // область видимости if (int.TryParse(..., out int val)) { val ... }
-        int value;
-        bool check;
-        do
+        while (true)
         {
-            check = int.TryParse(Console.ReadLine(), out value);
-            if (check)
+            if (int.TryParse(Console.ReadLine(), out int value))
             {
-                break;
+                int result = value;
+                return result;
             }
             else
             {
-                Console.WriteLine("Введите корректное значение");
+                Console.WriteLine("Некоректный ввод, попробуйте ещё раз:");
             }
-        } while (!check);
-        return value;
+        }
     }
 
     static (int,int) InputSize()
     {
         Console.WriteLine("Введите количество строк в матрице:");
-        int matSizeA = InputAndCheck();
+        int matSizeA = InputInt();
         Console.WriteLine("Введите количество столбцов в матрице:");
-        int matSizeB = InputAndCheck();
+        int matSizeB = InputInt();
         Console.WriteLine();
         return (matSizeA, matSizeB);
     }
@@ -53,17 +42,12 @@ internal class Program
     {
         int[,] matrix = new int[matSizeA, matSizeB];
         Random r = new Random();
-
-        // TODO ты ввел понятия размер A и размер B
-        // после этого, хорошо бы ввести константы для
-        // нумерации этого размера int const IndexSizeA = 0... IndexSizeB = 1
-        // и использовать их matrix.GetLength(IndexSizeA)
-        // сейчас числа 0 и 1 - это тоже "магические строки", тк не понятно
-        // что они означают в целом в коде (для того, кто видит код первый раз)
-        // и есть риск ошибиться, где 0 а где 1 нужно
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        int indexSizeA = 0;
+        int indexSizeB = 1;
+        
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 matrix[i, j] = r.Next(10);
             }
@@ -71,13 +55,14 @@ internal class Program
         return matrix;
     }
 
-    // TODO не экономь буквы Val - Values
     static int SumMatrixVal(int[,] matrix)
     {
+        int indexSizeA = 0;
+        int indexSizeB = 1;
         int sum = 0;
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 sum += matrix[i, j];
             }
@@ -85,12 +70,13 @@ internal class Program
         return sum;
     }
 
-    // TODO PrintMatrix - важно правильно называть, не экономь буквы
-    static void Print(int[,] matrix)
+    static void PrintMatrix(int[,] matrix)
     {
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        int indexSizeA = 0;
+        int indexSizeB = 1;
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 Console.Write($"{matrix[i, j]} ");
             }

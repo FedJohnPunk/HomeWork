@@ -2,61 +2,59 @@
 
 internal class Program
 {
-    // TODO аналогично замечаниям для 4.1
     static void Main()
     {
         (int matSizeA, int matSizeB) = InputSize();
 
         Console.WriteLine("Матрица A:");
-        int[,] matrixA = GenMatrix(matSizeA, matSizeB);
-        Print(matrixA);
+        int[,] matrixA = GenerateMatrix(matSizeA, matSizeB);
+        PrintMatrix(matrixA);
 
         Console.WriteLine("Матрица B:");
-        int[,] matrixB = GenMatrix(matSizeA, matSizeB);
-        Print(matrixB);
+        int[,] matrixB = GenerateMatrix(matSizeA, matSizeB);
+        PrintMatrix(matrixB);
 
         Console.WriteLine("Матрица C:");
         int[,] matrixC = SumMartix(matrixA, matrixB);
-        Print(matrixC);
+        PrintMatrix(matrixC);
     }
 
-    static int InputAndCheck()
+    static int InputInt()
     {
-        int val;
-        bool check;
-        do
+        while (true)
         {
-            check = int.TryParse(Console.ReadLine(), out val);
-            if (check == true)
+            if (int.TryParse(Console.ReadLine(), out int value))
             {
-                break;
+                int result = value;
+                return result;
             }
             else
             {
-                Console.WriteLine("Введите корректное значение");
-                check = false;
+                Console.WriteLine("Некоректный ввод, попробуйте ещё раз:");
             }
-        } while (check == false);
-        return val;
+        }
     }
 
     static (int, int) InputSize()
     {
         Console.WriteLine("Введите количество строк в матрице:");
-        int matSizeA = InputAndCheck();
+        int matSizeA = InputInt();
         Console.WriteLine("Введите количество столбцов в матрице:");
-        int matSizeB = InputAndCheck();
+        int matSizeB = InputInt();
         Console.WriteLine();
         return (matSizeA, matSizeB);
     }
 
-    static int[,] GenMatrix(int matSizeA, int matSizeB)
+    static int[,] GenerateMatrix(int matSizeA, int matSizeB)
     {
         int[,] matrix = new int[matSizeA, matSizeB];
         Random random = new Random();
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        int indexSizeA = 0;
+        int indexSizeB = 1;
+
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 matrix[i, j] = random.Next(10);
             }
@@ -66,10 +64,12 @@ internal class Program
 
     static int[,] SumMartix(int[,] matrixA, int[,] matrixB)
     {
-        int[,] matrix = new int[matrixA.GetLength(0), matrixB.GetLength(1)];
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        int indexSizeA = 0;
+        int indexSizeB = 1;
+        int[,] matrix = new int[matrixA.GetLength(indexSizeA), matrixB.GetLength(indexSizeB)];
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 matrix[i, j] = matrixA[i, j] + matrixB[i, j];
             }
@@ -77,11 +77,13 @@ internal class Program
         return matrix;
     }
 
-    static void Print(int[,] matrix)
+    static void PrintMatrix(int[,] matrix)
     {
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        int indexSizeA = 0;
+        int indexSizeB = 1;
+        for (int i = 0; i < matrix.GetLength(indexSizeA); i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(indexSizeB); j++)
             {
                 Console.Write($"{matrix[i, j]} ");
             }

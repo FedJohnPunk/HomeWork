@@ -10,26 +10,27 @@ internal class Progsram
         WriteOrRead(path, infoNames);
     }
 
-    static string InputAndCheck()
+    static string InputString()
     {
-        string s = string.Empty;
-        bool check;
-        do
+        while (true)
         {
-            s = Console.ReadLine();
-
-            check = string.IsNullOrEmpty(s);
-            if (check == false)
+            string s = Console.ReadLine();
+            if (string.IsNullOrEmpty(s))
             {
-                break;
+                Console.WriteLine("Введите корректное значение:");
             }
             else
             {
-                Console.WriteLine("не введено:");
-                check = true;
+                return s;
             }
-        } while (check == true);
-        return s;
+        }
+    }
+
+    static char ChooseOperation()
+    {
+        Console.WriteLine("Для чтения нажмите [1], для записи нажмите [2]:");
+        char key = Console.ReadKey(true).KeyChar;
+        return key;
     }
 
     static void WriteOrRead(string path, string[] info)
@@ -37,9 +38,7 @@ internal class Progsram
         bool check;
         do
         {
-            // TODO метод определения действия должен быть отдельно
-            Console.WriteLine("Для чтения нажмите [1], для записи нажмите [2]:");
-            char key = Console.ReadKey(true).KeyChar;
+            char key = ChooseOperation();
             if (char.ToLower(key) == '1')
             {
                 FileReader(path, info);
@@ -56,7 +55,16 @@ internal class Progsram
                 check = false;
             }
         } while (check == false);
-        
+    }
+
+    static void RepeatOperationOrNot(string path, string[] info)
+    {
+        Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
+        char key = Console.ReadKey(true).KeyChar;
+        if (char.ToLower(key) == '1')
+        {
+            WriteOrRead(path, info);
+        }
     }
 
     static void FileWriter(string path, string[] info)
@@ -72,23 +80,13 @@ internal class Progsram
             for (int i = 2; i < info.Length; i++)
             {
                 Console.WriteLine($"Введите значение параметра {info[i]}:");
-                string par = InputAndCheck();
+                string par = InputString();
                 userData += $"{separator}{par}";
             }
             sw.WriteLine(userData);
             sw.Close();
-            // TODO похожий код в FileRead должен вызывать желание сделать общий метод))
-            Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
-            char key = Console.ReadKey(true).KeyChar;
-            if (char.ToLower(key) == '1')
-            {
-                // TODO метод, который вызвает данный метод, не должен
-                // вызываться внутри вызываемого метода
-                // Определение того, что делать дальше должно быть вне метода, который что-то делает с файлом
-                WriteOrRead(path, info);
-            }
         }
-        
+        RepeatOperationOrNot(path, info);
     }
 
     static void FileReader(string path, string[] info)
@@ -111,12 +109,7 @@ internal class Progsram
                 Console.WriteLine(userData);
             }
             sr.Close();
-            Console.WriteLine("Для новой операции нажмите [1], для завершения работы програмы нажмите любую клавишу:");
-            char key = Console.ReadKey(true).KeyChar;
-            if (char.ToLower(key) == '1')
-            {
-                WriteOrRead(path, info);
-            }
         }
+        RepeatOperationOrNot(path, info);
     }
 }

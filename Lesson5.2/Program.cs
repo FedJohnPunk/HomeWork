@@ -4,38 +4,27 @@ internal class Program
     static void Main()
     {
         Console.WriteLine("Введите предложение:");
-        string inputText = InputAndCheck();
+        string inputText = InputString();
         string revText = Reverse(inputText);
         Console.WriteLine(revText);
     }
 
-    static string InputAndCheck()
+    static string InputString()
     {
-        string s = string.Empty;
-        bool check;
-        do
+        while (true)
         {
-            s = Console.ReadLine();
-
-            check = string.IsNullOrEmpty(s);
-            if (check == false)
+            string s = Console.ReadLine();
+            if (string.IsNullOrEmpty(s))
             {
-                break;
+                Console.WriteLine("Введите корректное значение:");
             }
             else
             {
-                Console.WriteLine("Введите корректное предложение:");
-                check = true;
+                return s;
             }
-        } while (check == true);
-        return s;
+        }
     }
 
-    /// <summary>
-    /// Метод, который разделяет стрку на отдельные слова.
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
     static string[] SplitText(string text)
     {
         string[] splitedText = text.Split();
