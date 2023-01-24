@@ -2,8 +2,11 @@
 
 namespace Lesson7;
 
+// TODO Основное замечание - репозиторий только для манипулирования данными
+// методы запроса данных у пользователя печати должны быть отдельно (class WorkerManager, class WorkerPrinter)
 public class WorkerRepository
 {
+    // TODO здесь подчеркивает - нужно исправить
     private string _workersFileName = @"C:\UserData\Сотрудники.txt";
     private string[] _workerInfo = { "ID", "Дата записи", "Ф.И.О.", "Возраст", "Рост", "Дата рождения", "Место рождения" };
 
@@ -128,12 +131,15 @@ public class WorkerRepository
     /// <returns>Массив с данными из файла</returns>
     public Worker[] ReadFile()
     {
+        // TODO здесь внутри считываешь все строки, потом на 4 строчки ниже опять все строки
         Worker[] workers = new Worker[CountWorkersAmount()];
+        // TODO нужно "using ...;" без скобок {} - подчеркивает же using
         using (StreamReader sr = new StreamReader(_workersFileName))
         {
             string[] data = File.ReadAllLines(_workersFileName);
             for (int i = 0; i < data.Length; i++)
             {
+                // TODO нужно отдельный метод WorkerFromString
                 string[] splitedData = data[i].Split(_separator);
                 workers[i].Id = int.Parse(splitedData[0]);
                 workers[i].CreationDate = DateTime.Parse(splitedData[1]);
@@ -158,6 +164,7 @@ public class WorkerRepository
         {
             for (int i = 0; i < workers.Length; i++)
             {
+                // TODO нужно отдельный метод WorkerToString
                 string workerInfo = string.Empty;
                 workerInfo += $"{workers[i].Id}{_separator}";
                 workerInfo += $"{workers[i].CreationDate}{_separator}";
@@ -180,11 +187,15 @@ public class WorkerRepository
     public void AddWorker(Worker newWorker)
     {
         Worker[] workers = ReadFile();
+        // TODO Пропробуй сделать файл из 3 воркеров, потом удалить воркера с ид = 1,
+        // потом добавить нового воркера. Какой ид у него будет?
         int index = CountWorkersAmount();
         newWorker.Id = index + 1;
         Array.Resize(ref workers, workers.Length + 1);
         workers[index] = newWorker;
         SaveFile(workers);
+
+        // TODO в одном методе не должно быть и сохранение и вывод на экран
         Console.WriteLine();
         Console.WriteLine("Данные сотрудника добавлены.");
         Console.WriteLine();
@@ -218,6 +229,9 @@ public class WorkerRepository
     /// <param name="id">ID сотрудника, данные которого нужно вывести</param>
     public void PrintWorkerById(int id)
     {
+        // TODO содержимое метода не соответствует описанию (это же не чтение, а печать в итоге)
+        // TODO нужно разделить на два метода - один найдет нужного воркера (или не найдет)
+        // а другой выведет на экран или ...
         Console.WriteLine();
         Worker[] workers = ReadFile();
         for (int i = 0; i < workers.Length; i++)
@@ -246,6 +260,8 @@ public class WorkerRepository
     public void DeleteWorker(int id)
     {
         Worker[] workers = ReadFile();
+        // TODO запись файла можно делать только SaveToFile
+        // нужно изменить массив, а потом его сохранить
         using StreamWriter sw = new StreamWriter(_workersFileName);
         for (int i = 0; i < workers.Length; i++)
         {
@@ -272,6 +288,8 @@ public class WorkerRepository
     {
         Console.WriteLine();
         Worker[] workers = ReadFile();
+        // TODO нужнео отдельным методом найти массив воркеров, удовлетворяющих условию
+        // потом отдельно вывести его на экран
         for (int i = 0; i < workers.Length; i++)
         {
             if (workers[i].CreationDate < dateTo)
