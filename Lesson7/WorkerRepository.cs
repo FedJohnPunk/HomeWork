@@ -15,11 +15,11 @@ public class WorkerRepository
     public void ChooseOperation()
     {
         Console.WriteLine(
-            "Введите '1', чтобы добавить нового сотрудника, " +
-            "\nВведите '2', чтобы вывести данные всех сотрудников," +
-            "\nВведите '3', чтобы вывести данные конктретного сотрудника," +
-            "\nВведите '4', чтобы удалить данные сотрудника," +
-            "\nВведите '5', чтобы вывести данные сотрудников за заданый промежуток времени.");
+            "Введите [1], чтобы добавить нового сотрудника, " +
+            "\nВведите [2], чтобы вывести данные всех сотрудников," +
+            "\nВведите [3], чтобы вывести данные конктретного сотрудника," +
+            "\nВведите [4], чтобы удалить данные сотрудника," +
+            "\nВведите [5], чтобы вывести данные сотрудников за заданый промежуток времени.");
         char key = Console.ReadKey(true).KeyChar;
         if (char.ToLower(key) == '1')
         {
@@ -263,7 +263,9 @@ public class WorkerRepository
             }
         }
         sw.Close();
+        Console.WriteLine();
         Console.WriteLine("Данные удалены.");
+        Console.WriteLine();
     }
 
     public void PrintWorkersBetweenTwoDates(DateTime dateFrom, DateTime dateTo)
