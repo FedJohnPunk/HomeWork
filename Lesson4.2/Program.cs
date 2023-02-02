@@ -25,8 +25,7 @@ internal class Program
         {
             if (int.TryParse(Console.ReadLine(), out int value))
             {
-                int result = value;
-                return result;
+                return value;
             }
             else
             {

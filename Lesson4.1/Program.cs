@@ -18,9 +18,7 @@ internal class Program
         {
             if (int.TryParse(Console.ReadLine(), out int value))
             {
-                // TODO зачем ? value же есть уже для возврата
-                int result = value;
-                return result;
+                return value;
             }
             else
             {

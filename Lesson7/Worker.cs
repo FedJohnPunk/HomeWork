@@ -37,10 +37,10 @@ public struct Worker
     /// </summary>
     public string BirthPlace { get; set; }
 
-    public Worker(string fio, int age, int height, DateTime birthDate, string birthPlace)
+    public Worker(DateTime creationDate, string fio, int age, int height, DateTime birthDate, string birthPlace)
     {
         this.Id = 0;
-        this.CreationDate = DateTime.Now;
+        this.CreationDate = creationDate;
         this.Fio = fio;
         this.Age = age;
         this.Height = height;
