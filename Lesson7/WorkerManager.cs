@@ -3,13 +3,45 @@
     internal class WorkerManager
     {
         readonly WorkerRepository workerRepository = new WorkerRepository();
+        readonly WorkerPrinter workerPrinter = new WorkerPrinter();
+
 
         /// <summary>
         /// Пользователь выбирает операцию
         /// </summary>
-        public void ChooseOperation()
+        public void MainOperation()
         {
-            // TODO предложение ввода и возврат символа нужно отдельным методом
+            bool repeat = true;
+            while (repeat == true)
+            {
+                char key = InputChar();
+                switch (key)
+                {
+                    case '1':
+                        AddWorker();
+                        break;
+                    case '2':
+                        PrintAllWorkers();
+                        break;
+                    case '3':
+                        PrintWorkerById();
+                        break;
+                    case '4':
+                        DeleteWorker();
+                        break;
+                    case '5':
+                        PrintWorkersByDate();
+                        break;
+                    default:
+                        Console.WriteLine("\nНекоректный ввод, попробуйте ещё раз:");
+                        break;
+                }
+                repeat = RepeatOperationOrNot();
+            }
+        }
+
+        public static char InputChar()
+        {
             Console.WriteLine(
                 "Введите [1], чтобы добавить нового сотрудника, " +
                 "\nВведите [2], чтобы вывести данные всех сотрудников," +
@@ -17,92 +49,81 @@
                 "\nВведите [4], чтобы удалить данные сотрудника," +
                 "\nВведите [5], чтобы вывести данные сотрудников за заданый промежуток времени.");
             char key = Console.ReadKey(true).KeyChar;
+            return key;
+        }
 
-            // TODO содержимое каждого блока if должно быть отдельным методом
-            // например
-            //      private void AddWirker() { ... }
-            //      private void PrintAllWorkers() { ... }
-            // после этого тебе будет проще читать код и понять, как другие исправления внести
-            // TODO После того, как остальное поправишь, переделай много if на один swith
-            if (char.ToLower(key) == '1')
-            {
-                Worker worker = new Worker();
-                worker.CreationDate = DateTime.Now;
-                Console.WriteLine("\nВведите Ф.И.О. сотрудника: ");
-                worker.Fio = InputStringCheck();
-                Console.WriteLine("\nВведите возраст сотрудника: ");
-                worker.Age = int.Parse(InputStringCheck());
-                Console.WriteLine("\nВведите рост сотрудника: ");
-                worker.Height = int.Parse(InputStringCheck());
-                Console.WriteLine("\nВведите дату рождения сотрудника в виде 'xx.xx.xx': ");
-                worker.BirthDate = DateTime.Parse(InputStringCheck());
-                Console.WriteLine("\nВведите место рождения сотрудника: ");
-                worker.BirthPlace = InputStringCheck();
+        private void AddWorker()
+        {
+            Worker worker = new Worker();
+            worker.CreationDate = DateTime.Now;
+            Console.WriteLine("\nВведите Ф.И.О. сотрудника: ");
+            worker.Fio = InputStringCheck();
+            Console.WriteLine("\nВведите возраст сотрудника: ");
+            worker.Age = int.Parse(InputStringCheck());
+            Console.WriteLine("\nВведите рост сотрудника: ");
+            worker.Height = int.Parse(InputStringCheck());
+            Console.WriteLine("\nВведите дату рождения сотрудника в виде 'xx.xx.xx': ");
+            worker.BirthDate = DateTime.Parse(InputStringCheck());
+            Console.WriteLine("\nВведите место рождения сотрудника: ");
+            worker.BirthPlace = InputStringCheck();
 
-                workerRepository.AddWorker(worker);
-                Console.WriteLine("\nДанные сотрудника добавлены.\n");
-                RepeatOperationOrNot();
-            }
-            // TODO везде ToLower - во первых это же цифра, она одинаковая в врехнем и нижнем регистре
-            // во вторых можно же при вводе сразу сделать один раз ToLower
-            else if (char.ToLower(key) == '2')
+            workerRepository.AddWorker(worker);
+            Console.WriteLine("\nДанные сотрудника добавлены.\n");
+        }
+
+        private void PrintAllWorkers()
+        {
+            workerPrinter.PrintArrayOfWorkers(workerRepository.GetAllWorkers());
+        }
+
+        private void PrintWorkerById()
+        {
+            Console.WriteLine("\nВведите ID сотрудника для отображения данных:");
+            int id = int.Parse(InputStringCheck());
+            workerPrinter.PrintWorker(workerRepository.GetWorkerById(id));
+        }
+
+        private void DeleteWorker()
+        {
+            Console.WriteLine("\nВведите ID сотрудника для удаления данных: ");
+            int id = int.Parse(InputStringCheck());
+            bool succes = workerRepository.DeleteWorker(id);
+            if (succes == true)
             {
-                workerRepository.GetAllWorkers();
-                RepeatOperationOrNot();
-            }
-            else if (char.ToLower(key) == '3')
-            {
-                Console.WriteLine("\nВведите ID сотрудника для отображения данных:");
-                int id = int.Parse(InputStringCheck());
-                workerRepository.GetWorkerById(id);
-                RepeatOperationOrNot();
-            }
-            else if (char.ToLower(key) == '4')
-            {
-                Console.WriteLine("\nВведите ID сотрудника для удаления данных: ");
-                int id = int.Parse(InputStringCheck());
-                workerRepository.DeleteWorker(id);
                 Console.WriteLine("\nДанные удалены.\n");
-                RepeatOperationOrNot();
             }
-            else if (char.ToLower(key) == '5')
+            else if (succes == false)
             {
-                Console.WriteLine("Введите дату от: ");
-                DateTime dateFrom = DateTime.Parse(InputStringCheck());
-                Console.WriteLine("Введите дату до: ");
-                DateTime dateTo = DateTime.Parse(InputStringCheck());
-                workerRepository.GetWorkersBetweenTwoDates(dateFrom, dateTo);
-                RepeatOperationOrNot();
-            }
-            else
-            {
-                Console.WriteLine("\nНекоректный ввод, попробуйте ещё раз:");
-                // TODO так не очень хорошо, чтобы метод сам себя вызывал
-                // (есть только один допустимый вариант - рекурсия, но это отдельно изучается)
-                // каждый вызов помещает блок программы в стек и этот стек может переполниться
-                // переделай на бесконечный цикл
-                ChooseOperation();
+                Console.WriteLine("\nДанные не найдены.\n");
             }
         }
 
-        // TODO этот медод должен возвращать bool = true, если нужно продолжить
-        // а остальное, должен сделать вызывающий метод
-        // TODO у тебя этот вызов в каждом блоке if
-        // подумай, как сделать его общим для всех
-        public void RepeatOperationOrNot()
+        private void PrintWorkersByDate()
         {
-            Console.WriteLine("Введите [1] для новой операции, \nДля выхода из программы нажмите любую клавишу:\n");
+            Console.WriteLine("Введите дату от: ");
+            DateTime dateFrom = DateTime.Parse(InputStringCheck());
+            Console.WriteLine("Введите дату до: ");
+            DateTime dateTo = DateTime.Parse(InputStringCheck());
+            workerPrinter.PrintArrayOfWorkers(workerRepository.GetWorkersByDate(dateFrom, dateTo));
+        }
+
+        public static bool RepeatOperationOrNot()
+        {
+            Console.WriteLine("\nВведите [1] для новой операции, \nДля выхода из программы нажмите любую клавишу:\n");
+            bool newOperationNeeded;
             char key = Console.ReadKey(true).KeyChar;
             if (key == '1')
             {
-                // TODO нельзя вызывать метод, который вызывает этот метод
-                // нужно вернуть данные, которые позволят
-                // вызывающему методу соритентироваться, что дальше делать
-                ChooseOperation();
+                newOperationNeeded = true;
             }
+            else
+            {
+                newOperationNeeded = false;
+            }
+            return newOperationNeeded;
         }
 
-        public string InputStringCheck()
+        public static string InputStringCheck()
         {
             while (true)
             {
