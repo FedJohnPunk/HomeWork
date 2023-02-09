@@ -1,4 +1,7 @@
-﻿namespace Lesson7
+﻿
+// TODO не забывай убирать лишний уровень вложенности
+//      namespace Lesson7;
+namespace Lesson7
 {
     internal class WorkerManager
     {
@@ -12,6 +15,7 @@
         public void MainOperation()
         {
             bool repeat = true;
+            // TODO не сравнивай значение логического выражения с логическим значением
             while (repeat == true)
             {
                 char key = InputChar();
@@ -92,6 +96,8 @@
             {
                 Console.WriteLine("\nДанные удалены.\n");
             }
+            // TODO у тебя если succes не равно true, значит не найден
+            // нет необходимости сравнивать с false
             else if (succes == false)
             {
                 Console.WriteLine("\nДанные не найдены.\n");
@@ -110,8 +116,15 @@
         public static bool RepeatOperationOrNot()
         {
             Console.WriteLine("\nВведите [1] для новой операции, \nДля выхода из программы нажмите любую клавишу:\n");
+            // TODO не объявляй просто так переменные (есть редкие случаи, когда это нужно, но там по другоме не сделаешь)
             bool newOperationNeeded;
             char key = Console.ReadKey(true).KeyChar;
+            // TODO если тебе нужно получить логическое значение
+            // тебе не нужно это оборачивать в оператор if ()
+            // само выражение условия и есть нужное значение:
+            //      newOperationNeeded = key == '1';
+            // или даже без лишней переменной
+            //      return key == '1';
             if (key == '1')
             {
                 newOperationNeeded = true;
