@@ -13,9 +13,9 @@ class Program
 
     static List<int> GenerateList()
     {
-        List<int> list = new List<int>();
+        List<int> list = new();
 
-        Random random = new Random();
+        Random random = new();
 
         for (int i = 0; i < 100; i++)
         {
@@ -26,23 +26,21 @@ class Program
 
     static void DeleteFromList(List<int> list)
     {
-        for (int i = 0; i < list.Count; i++)
+        for (int i = list.Count; i > 0; i--)
         {
-            // TODO сделай вместо этого отдельный метод проверки того, что
-            // элемент списка подлежит удалению: bool NeedDelete(int item)
-            // только без if а используя логический оператор &&
-            if (25 < list[i])
+            if (NeedToDelete(list[i]))
             {
-                if (list[i] < 50)
-                {
-                    list.RemoveAt(i);
-                    // TODO не хорошо модифицировать счетчик цикла, это не очень прозрачное действие
-                    // нужно переводить в голове. Код должен просто читаться
-                    // Вместо этого начни цикл с конца списка.
-                    i--;
-                }
+                list.RemoveAt(i);
             }
         }
+    }
+
+    static bool NeedToDelete(int value)
+    {
+        if (25 < value && value < 50)
+            return true;
+        else
+            return false;
     }
 
     static void PrintList(List<int> list)

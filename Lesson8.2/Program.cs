@@ -5,12 +5,12 @@ class Program
     static void Main(string[] args)
     {
         Dictionary<string, string> phoneBook = InputData();
-
+        FindAndPrintFromList(phoneBook);
     }
 
     static Dictionary<string, string> InputData()
     {
-        Dictionary<string, string> phoneBook = new Dictionary<string    , string>();
+        Dictionary<string, string> phoneBook = new Dictionary<string, string>();
         while (true)
         {
             Console.WriteLine("Введите ФИО:");
@@ -25,16 +25,19 @@ class Program
 
             phoneBook.Add(phoneNumber, fio);
         }
-        
-
         return phoneBook;
     }
 
     static void FindAndPrintFromList(Dictionary<string, string> phoneBook)
     {
-        Console.WriteLine("Введите номер телефона для удаления:");
-        string number = InputString();
-        Console.WriteLine($"{phoneBook[number]}");
+        Console.WriteLine("Введите номер телефона для поиска:");
+        if (phoneBook.TryGetValue(InputString(), out string fio))
+        {
+            Console.WriteLine($"{fio}");
+        }
+        else
+        {
+            Console.WriteLine("Номер не найден.");        }
     }
 
     static string InputString()
