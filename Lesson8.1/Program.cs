@@ -37,6 +37,11 @@ class Program
 
     static bool NeedToDelete(int value)
     {
+        // TODO та же проблема с логиескими выражениями !!!!!!
+        // нужно уяснить, что логическое выражение не нуждается в if
+        // если (25 < value && value < 50) истинно, то это означает, что оно равно true
+        // нужно просто
+        //      return 25 < value && value < 50;
         if (25 < value && value < 50)
             return true;
         else

@@ -15,6 +15,7 @@ public class WorkerRepository
         {
             return;
         }
+        // TODO нужно ли здесь проверять это условие?
         if (!fileExistCheck)
         {
             using StreamWriter streamWriter = new StreamWriter(_workersFileName, fileExistCheck);
@@ -83,17 +84,20 @@ public class WorkerRepository
         return workerInfo;
     }
 
-    public static int IndexWorker(Worker[] workers)
+    // TODO Это не индекс, это новое значение Id
+    public static int NextWorkerId(Worker[] workers)
     {
-        int index = 1;
+        int maxId = 1;
         for (int i = 0; i < workers.Length; i++)
         {
-            if (workers[i].Id >= index)
+            // TODO равенство здесь не нужно проверять, только если больше
+            if (workers[i].Id >= maxId)
             {
-                index = workers[i].Id + 1;
+                // TODO здесь не нужно + 1, нужно при возврате
+                maxId = workers[i].Id + 1;
             }
         }
-        return index;
+        return maxId;
     }
 
     /// <summary>
@@ -103,12 +107,14 @@ public class WorkerRepository
     public void AddWorker(Worker newWorker)
     {
         Worker[] workers = ReadFromFile();
-        newWorker.Id = IndexWorker(workers);
+        newWorker.Id = NextWorkerId(workers);
         Array.Resize(ref workers, workers.Length + 1);
         workers[workers.Length - 1] = newWorker;
         SaveToFile(workers);
     }
 
+    // TODO Можно так, но лучше передать массив воркеров уже прочитанный,
+    // иначе лишнее чтение файла, а это не быстрая операция
     public int FindWorkerIndexById(int id)
     {
         Worker[] workers = ReadFromFile();
@@ -123,7 +129,8 @@ public class WorkerRepository
         }
         return workerIndex;
     }
-    
+
+    // TODO нужен же метод по Id по заданию, для этого же поиск индекса по Id делал
     /// <summary>
     /// Чтение данных по ID
     /// </summary>
@@ -134,6 +141,7 @@ public class WorkerRepository
         return workers[workerIndex];
     }
 
+    // TODO нужен же метод по Id по заданию, для этого же поиск индекса по Id делал
     /// <summary>
     /// Метод для удаления записи из файла
     /// </summary>
@@ -160,6 +168,7 @@ public class WorkerRepository
                 counter++;
             }
         }
+        // TODO                          так а скобки раскрыть не догадался? :)
         Array.Resize(ref workersByDates, workersByDates.Length - (workersByDates.Length - counter));
         return workersByDates;
     }

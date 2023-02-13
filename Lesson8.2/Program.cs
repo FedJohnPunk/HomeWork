@@ -37,7 +37,8 @@ class Program
         }
         else
         {
-            Console.WriteLine("Номер не найден.");        }
+            Console.WriteLine("Номер не найден.");
+        }
     }
 
     static string InputString()

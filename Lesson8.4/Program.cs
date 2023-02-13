@@ -21,6 +21,8 @@ class Program
         Console.WriteLine("\nВведите название улицы:");
         newWorker.Street= InputStringCheck();
         Console.WriteLine("\nВведите номер дома:");
+        // TODO вообще номер дома не обязательно число
+        // но если хочешь число, то это нужно проверить при вводе
         newWorker.HouseNumber = int.Parse(InputStringCheck());
         Console.WriteLine("\nВведите номер квартиры:");
         newWorker.FlatNumber = int.Parse(InputStringCheck());
@@ -33,11 +35,17 @@ class Program
 
     static void SerializeWorker(Worker newWorker, string Path)
     {
+        // TODO как это используется?
         XmlSerializer xmlSerializer = new XmlSerializer(typeof(Worker));
 
+        // TODO а без этого не будет работать?
+        // но если действительно нужно созавать файл, то это нужно
+        // делать перед записью
         Stream stream = new FileStream(Path, FileMode.Create, FileAccess.Write);
         stream.Close();
 
+        // TODO ты сначала создаешь, а потом в обратном порядке заполняешь
+        // можно сразу создавать заполняя
         XElement person = new XElement("Person");
         XAttribute xAttributePersonName = new XAttribute("name", $"{newWorker.Fio}");
 
@@ -50,6 +58,8 @@ class Program
         XElement mobilePhone = new XElement("MobilePhone");
         XElement flatPhone = new XElement("FlatPhone");
 
+        // TODO у XElement есть конструктор, который принимает одновременно
+        // и имя и значение, не нужно отдельно
         street.Add($"{newWorker.Street}");
         houseNumber.Add($"{newWorker.HouseNumber}");
         flatNumber.Add($"{newWorker.FlatNumber}");
